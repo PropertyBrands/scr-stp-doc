@@ -1,22 +1,21 @@
 # ResidentIQ Partner API
 
-The ResidentIQ partner api is a simple implementation that takes the same payloads as tazworks for api partners. This approach lets the api partners calling Tazworks easily switch to calling ResidentIQ.
+The ResidentIQ Partner API provides a simple access point for ordering and receiving consumer reports.
 
 ## Partner Setup (Checklist)
 
-Any client location with an API Partner setup on them can receive screenings over the RIQ partner api but a few things need to be setup for this to work.
+Any client location with an API partner setup on them can receive screenings over the RIQ Partner API but a few things need to be setup for this to work.
 
-1. A client and property must be setup in STP with Taz credentials and product name set(requires a CRA).
-2. At least one user must be setup under the client with admin rights(requires a CRA).
-3. ApiPartner has been set on the client location(requires a developer)
-4. ApiPartner has been setup in the API(requires a developer)
+1. A client and property must be setup in STP with credentials and product name set (requires a CRA).
+2. At least one user must be setup under the client with admin rights (requires a CRA).
+3. ApiPartner has been set on the client location (requires a developer)
+4. ApiPartner has been setup in the API (requires a developer)
     * add partner to the enum of ApiPartners
     * setup an api partner event handler for any new partner(there is a base class for all taz flavored handlers).
 
-
 ## Authentication
 
-Currently all RIQ api partners must send valid credentials in the xml payload <BackgroundSearch> element. If there is an error identifying the client or mismatch in credential API Partner will receive a standard Error Response.
+Currently all RIQ API partners must send valid credentials in the xml payload <BackgroundSearch> element. If there is an error identifying the client or mismatch in credential API Partner will receive a standard Error Response.
 
 ## Requests/Routes
 
@@ -30,7 +29,7 @@ Currently all RIQ api partners must send valid credentials in the xml payload <B
 
 ***
 ### POST : /api/partner
-The standard post route accepts a standard Tazworks xml payload in the request body and will return a success or failure response as a 200 http code. Accepted header would include application/xml. This differs from the form url encoded content typically passed to Tazworks.
+The standard post route accepts a standard xml payload in the request body and will return a success or failure response as a 200 http code. Accepted header would include application/xml.
 
 **Grouping :** To create a record on the post route that should be immediately grouped with an existing co applicant API partners should include an additional items element with the existing applicant report number to group on.
 ```xml
