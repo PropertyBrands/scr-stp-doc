@@ -11,7 +11,7 @@ Any client location with an API partner setup on them can receive screenings ove
 3. ApiPartner has been set on the client location (requires a developer)
 4. ApiPartner has been setup in the API (requires a developer)
     * add partner to the enum of ApiPartners
-    * setup an api partner event handler for any new partner(there is a base class for all taz flavored handlers).
+    * setup an api partner event handler for any new partner
 
 ## Authentication
 
@@ -24,7 +24,7 @@ Currently all RIQ API partners must send valid credentials in the xml payload <B
 2. production : https://api.residentiq.com
 
 # Note :
-1. Please use ssns that corresponds with Tazworks test accounts : 333221111,111223333.
+1. Please use ssns that corresponds with test accounts : 333221111,111223333.
 2. Report Urls returned from the API are transient and only live for 5 minutes. this can be overriden for a given location if needed.
 
 ***
