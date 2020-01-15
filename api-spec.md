@@ -169,3 +169,33 @@ The unlink route will remove applicant with the supplied OrderId from its curren
 </BackgroundReports>
 ```
 3. **Response-Error**: Returns a standard Error response with description.
+
+### POST : /api/partner/document/aal
+The Adverse Action Letter route will return all AAL's on file in STP for a given report number
+
+### Examples:
+1. **Request**: If the payload passes validation api partner will receive a supporting documents response with document node populated for all records
+```xml
+<?xml version="1.0"?>
+<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundSearchPackage action="status">
+    <OrderId>{STP Report Number}</OrderId>
+ </BackgroundSearchPackage>
+</BackgroundCheck>
+```
+2. **Response-Success**: 
+```xml
+<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundReportPackage>
+   <ReferenceId>{Partner Provided ReferenceId}</ReferenceId>
+    <OrderId>{STP internal report number}</OrderId>
+   <SupportingDocumentation>
+      <Document>
+        <Name>{File Name}</Name>
+        <EncodedContent>{Base64 encoded string of File Bytes}</EncodedContent>
+      </Document>
+    </SupportingDocumentation>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+3. **Response-Error**: Returns a standard Error response with description.
