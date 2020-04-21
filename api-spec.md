@@ -20,8 +20,8 @@ Currently all RIQ API partners must send valid credentials in the xml payload <B
 ## Requests/Routes
 
 ### Environment URLs:
-1. development : https://apidev.residentiq.com
-2. production : https://api.residentiq.com
+1. sandbox : https://apiqa.residentiq.com
+
 
 # Note :
 1. Please use ssns that corresponds with test accounts : 333221111,111223333.
