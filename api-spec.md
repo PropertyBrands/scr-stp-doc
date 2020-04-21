@@ -199,3 +199,28 @@ The Adverse Action Letter route will return all AAL's on file in STP for a given
 </BackgroundReports>
 ```
 3. **Response-Error**: Returns a standard Error response with description.
+
+### POST : /api/partner/packages
+The Packages Route will let API Partners pull a list of available products for a set of client location credentials
+
+### Examples:
+1. **Request**: If the payload passes validation api partner will receive a product list response.
+```xml
+<?xml version="1.0"?>
+<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundSearchPackage action="status" />
+</BackgroundCheck>
+```
+2. **Response-Success**: 
+```xml
+<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundReportPackage>
+    <ProductsAvailable>
+        <Product>Product 1</Product>
+        <Product>Product 2</Product>
+        <Product>Product 3</Product>
+    </ProductsAvailable>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+3. **Response-Error**: Returns a standard Error response with description.
