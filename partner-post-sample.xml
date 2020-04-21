@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundSearchPackage action="submit" type="{ProductName}">
+    <ReferenceId>{PartnerSystemRefId}</ReferenceId>
+    <APIUser></APIUser>
+    <ClientUser></ClientUser>
+    <UserFullName></UserFullName>
+    <PersonalData>
+      <PersonName>
+        <GivenName>Hank</GivenName>
+        <FamilyName>Mess</FamilyName>
+      </PersonName>
+      <DemographicDetail>
+        <GovernmentId issuingAuthority="SSN">333221111</GovernmentId>
+        <DateOfBirth>1970-12-01</DateOfBirth>
+      </DemographicDetail>
+      <PostalAddress type="current">
+        <PostalCode>57701</PostalCode>
+        <Region>SD</Region>
+        <Municipality>Rapid City</Municipality>
+        <DeliveryAddress>
+          <AddressLine>2401 Mt Rushmore Rd, 311</AddressLine>
+        </DeliveryAddress>
+      </PostalAddress>
+      <EmailAddress></EmailAddress>
+      <Telephone>8008675309</Telephone>
+    </PersonalData>
+    <Screenings useConfigurationDefaults="yes">
+      <AdditionalItems type="x:monthly_rent">
+        <Text>915</Text>
+      </AdditionalItems>
+      <AdditionalItems type="x:monthly_income">
+        <Text>8157</Text>
+      </AdditionalItems>
+      <AdditionalItems type="x:postback_url">
+        <Text>{someurl}</Text>
+      </AdditionalItems>
+    </Screenings>
+    <SupportingDocumentation>
+      <OriginalFileName>Signed_Rental_Application.pdf</OriginalFileName>
+      <Name>davebirt</Name>
+      <EncodedContent>{base64 string}</EncodedContent>
+    </SupportingDocumentation>
+  </BackgroundSearchPackage>
+</BackgroundCheck>
