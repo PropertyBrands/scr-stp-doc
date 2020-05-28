@@ -224,3 +224,30 @@ The Packages Route will let API Partners pull a list of available products for a
 </BackgroundReports>
 ```
 3. **Response-Error**: Returns a standard Error response with description.
+
+### POST : /api/partner/decision
+The decision route will allow partners to set a property decision for a specific screening. Allowed property decisions are Decline, Conditional-Low, Conditional-High, and Accept. The property decision will be used when STP generates an adverse action letter on behalf of the API partner.
+
+### Examples
+1. **Request**: Similar to the status route, the API will look for a "decision" action on the BackgroundSearchPackage element, followed by a child PropertyDecision element:
+```xml
+<?xml version="1.0"?>
+	<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
+		<BackgroundSearchPackage action="decision">
+			<OrderId>{STP Internal report Number}</OrderId>
+			<PropertyDecision>{Accept / Conditional-High / Conditional-Low / Decline}</PropertyDecision>
+		</BackgroundSearchPackage>
+	</BackgroundCheck>
+```
+2. **Response Success**: If the API call passes validation, the API will return a success element in its response indicating if the update was successful or not:
+```xml
+<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundReportPackage>
+    <ReferenceId>{Partner Provided referenceId}</ReferenceId>
+    <OrderId>{STP Internal Report Number}</OrderId>
+    <Success>{True / False}</Success>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+
+3. **Response-Error**: Returns a standard Error response with description.
