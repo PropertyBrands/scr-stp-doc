@@ -251,3 +251,46 @@ The decision route will allow partners to set a property decision for a specific
 ```
 
 3. **Response-Error**: Returns a standard Error response with description.
+
+### POST : /api/partner/statistics
+The statistics route will pull all applicants under a client and provide statistics on each. The statistics provided include Eviction and Bankruptcy data coupled with the applicants credit score. If a credit score is not on file in RIQ the RIQ calculated score is returned in the Credit Score element. There is a maximum 60 day window for collecting stats. if the requested timeline exceeds this a standard error is thrown with message indicating the issue.
+
+### Examples
+1. **Request**: The statistics route expects valid location credentials(from which to infer the client ID) and a Start/End date pair (MM-DD-YYYY) embeded in a Stats Element for lookups.
+```xml
+<?xml version="1.0"?>
+	<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
+		<BackgroundSearchPackage action="decision">
+			<Stats>
+				<StartDate>04-01-2020</StartDate>
+				<EndDate>05-01-2020</EndDate>
+			</Stats>
+		</BackgroundSearchPackage>
+	</BackgroundCheck>
+```
+2. **Response Success**: If the API call passes validation, the API will return collection of all reports for the client found within the time window based on date created in STP.
+```xml
+<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <Stats>
+        <Stat>
+            <ReportNumber>12345</ReportNumber>
+            <CreditScore>31</CreditScore>
+            <Evictions Count="1">
+                <Eviction>
+                    <FileDate>2/13/2019</FileDate>
+                </Eviction>
+            </Evictions>
+            <Bankruptcies Count="1">
+                <Bankruptcy>
+                    <Type>BankruptcyChapter7</Type>
+                    <CourtName>US BKPT CT CO DENVER</CourtName>
+                    <Status>Discharged</Status>
+                </Bankruptcy>
+            </Bankruptcies>
+        </Stat>
+    </Stats>
+</BackgroundReports>
+```
+
+3. **Response-Error**: Returns a standard Error response with description.
+
