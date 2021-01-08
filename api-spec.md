@@ -31,6 +31,8 @@ Currently all RIQ API partners must send valid credentials in the xml payload <B
 ### POST : /api/partner
 The standard post route accepts a standard xml payload in the request body and will return a success or failure response as a 200 http code. Accepted header would include application/xml.
 
+[Sample Payload](https://github.com/PropertyBrands/scr-stp-doc/blob/master/partner-post-sample.xml)
+
 **Grouping :** To create a record on the post route that should be immediately grouped with an existing co applicant API partners should include an additional items element with the existing applicant report number to group on.
 ```xml
   <AdditionalItems type="x:link_order">
