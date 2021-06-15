@@ -8,6 +8,7 @@
     <PersonalData>
       <PersonName>
         <GivenName>Hank</GivenName>
+        <MiddleName>Danger</MiddleName>
         <FamilyName>Mess</FamilyName>
       </PersonName>
       <DemographicDetail>
