@@ -11,6 +11,22 @@ The ResidentIQ Partner API provides a simple access point for pulling report URL
 
 All calls to RIQ partner api require a valid JSON Web Token, presented as a bearer token in the Authorization header for each request.
 
+## Standard Error Response 
+```xml
+<?xml version="1.0"?><BackgroundReports>
+  <BackgroundReportPackage>
+    <ReferenceId>{Report Number}</ReferenceId>
+    <ScreeningStatus>
+      <OrderStatus>x:error</OrderStatus>
+    </ScreeningStatus>
+    <ErrorReport>
+      <ErrorCode>1</ErrorCode>
+      <ErrorDescription>{Error Message from RIQ}</ErrorDescription>
+    </ErrorReport>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+
 ## Requests/Routes
 
 ### Environment URLs:
