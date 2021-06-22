@@ -89,7 +89,7 @@ The report status route takes a report Id that exists within RIQ and returns the
 
 ***
 
-### POST : /api/partner/decision
+### POST : /api/apipartner/decision
 The decision route will allow partners to set a property decision for a specific screening. Allowed property decisions are Decline, Conditional-Low, Conditional-High, and Accept. The property decision will be used when STP generates an adverse action letter on behalf of the API partner.
 
 ### Examples
