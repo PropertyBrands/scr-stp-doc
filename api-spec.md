@@ -296,3 +296,39 @@ The statistics route will pull all applicants under a client and provide statist
 
 3. **Response-Error**: Returns a standard Error response with description.
 
+### POST : /api/partner/document/upload
+The Document upload route will allow partners to submit additional documents for a report after it has been sent to screening.
+
+### Examples
+1. **Request**: Similar to the status route, the API will look for a "decision" action on the BackgroundSearchPackage element, followed by a child PropertyDecision element:
+```xml
+<?xml version="1.0"?>
+	<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
+		<BackgroundSearchPackage action="decision">
+			<OrderId>{STP Internal report Number}</OrderId>
+			 <SupportingDocumentation>
+				<Document>
+				    <OriginalFileName>Doc1.png</OriginalFileName>
+				    <FileType>3</FileType>
+				    <EncodedContent>{BASE64 STRING}</EncodedContent>
+				</Document>
+				<Document>
+				    <OriginalFileName>Doc2.pdf</OriginalFileName>
+				    <FileType>3</FileType>
+				    <EncodedContent>{BASE64 STRING}</EncodedContent>
+				</Document>
+			    </SupportingDocumentation>
+		</BackgroundSearchPackage>
+	</BackgroundCheck>
+```
+2. **Response Success**: If the API call passes validation, the API will return the following payload indicating if the upload was successful
+```xml
+<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundReportPackage>
+    <OrderId>{STP Internal Report Number}</OrderId>
+    <VerificationDocumentation>Document(s) uploaded for this report.</VerificationDocumentation>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+
+3. **Response-Error**: Returns a standard Error response with description.
