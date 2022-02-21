@@ -57,5 +57,22 @@ When the API partner receives the above postback, that Income Verification can b
 </AdditionalItems>
 ```
 
+Note, income verifications can only be assigned to ONE screening.
+
+## Troubleshooting
+
 To ensure the income verification token is valid, the following checks are performed during screening creation:
-* 
+* If the screening SearchPackage contains an income verification search, does the screening payload include a token? If not, the API will pass back an error message of Income Verification Token is required for this package.
+* If the token cannot be parsed into a valid GUID, the API will pass back: Income verification token cannot be parsed.
+* If the verification token has previously been mapped to a screening, the API will respond with: Verification Token has been previously mapped to another report.
+
+## Testing
+
+The following curl request can be used to test connectivity:
+
+```curl
+curl -H "api-key: {API KEY HERE}" -i https://finapi.residentiq.com/api/link
+```
+
+If successful, the curl request should return a 200.
+
