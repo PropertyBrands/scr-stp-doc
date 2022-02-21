@@ -26,7 +26,7 @@ The verification URL will take an applicant to the RIQ Income Verification appli
 Once the applicant finishing the IV process, a payload will be posted to the postbackUrl provided during link generation. This postback will include the following information:
 ```json
 {
-  "verificationToken": "7794981a-bafa-491d-8eef-2ac133e10210",
+  "verificationToken": "47bf8051-bed0-4e17-98d4-e6998b978308",
   "calculatedIncome": 0.00,
   "additionalIncome": 725,
   "hasHousingVoucher": true,
@@ -35,11 +35,10 @@ Once the applicant finishing the IV process, a payload will be posted to the pos
   "userSpecifiedIncome": 2500,
   "uploadedDocuments": [
     {
-      "verificationToken": "7794981a-bafa-491d-8eef-2ac133e10210",
+      "verificationToken": "47bf8051-bed0-4e17-98d4-e6998b978308",
       "fileName": "test copy.jpg",
       "timestamp": "2022-02-11T20:43:56.07",
-      "documentContents": "REMOVED FOR EXAMPLE",
-      "documentType": 0
+      "documentContents": "REMOVED FOR EXAMPLE"
     }
   ]
 }
@@ -49,3 +48,14 @@ Please note that all income sources that the user specifies are transmitted sepa
 
 Once this postback is received, the applicant's IV is marked as complete. At this point, the link will be deactivated, and no additional changes can be made to the provided data.
 
+## Screening
+
+When the API partner receives the above postback, that Income Verification can be associated to a screening in the ResidentIQ system. The following node can be used during the Screening-Create process to associate a new screening record to an existing IV:
+```xml
+<AdditionalItems type="x:income_verification_token">
+    <Text>{token | GUID}</Text>
+</AdditionalItems>
+```
+
+To ensure the income verification token is valid, the following checks are performed during screening creation:
+* 
