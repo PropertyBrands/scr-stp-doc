@@ -6,12 +6,15 @@ The ResidentIQ Income Verification product (IV for short) requires an API Key fo
 
 ## Usage
 
-To request an income verification link for an applicant, the API partner will send a POST request to https://finapi.residentiq.com/api/link. The body of this request will include one parameter in JSON format:
+To request an income verification link for an applicant, the API partner will send a POST request to https://finapi.residentiq.com/api/link. The body of this request will include two parameters in JSON format:
 ```json
 {
-    "postbackUrl": "{YOUR POSTBACK URL}"
+    "postbackUrl": "{YOUR POSTBACK URL}",
+    "referenceId": "any string of length < 50"
 }
 ```
+
+The postbackUrl is where results will be delivered when a user is done with the IV process. The ReferenceId is optional and must be less than 50 total characters. This ReferenceId will be provided with the final postback.
 
 If the request is successful, this api call will result in the following response:
 ```json
@@ -31,7 +34,9 @@ Once the applicant finishing the IV process, a payload will be posted to the pos
   "additionalIncome": 725,
   "hasHousingVoucher": true,
   "voucherAmount": 567,
+  "referenceId": "id povided during link generation",
   "hasBankAccount": false,
+  "totalIncome": 3250.00,
   "userSpecifiedIncome": 2500,
   "uploadedDocuments": [
     {
@@ -44,7 +49,7 @@ Once the applicant finishing the IV process, a payload will be posted to the pos
 }
 ```
 
-Please note that all income sources that the user specifies are transmitted separately. Calculated Income will only be populated if the user completes the FinicityConnect scenario.
+Please note that all income sources that the user specifies are transmitted separately. The TotalIncome field provides a simplified field that adds the CalculatedIncome and/or UserSpecifiedIncome with the AdditionalIncome. Calculated Income will only be populated if the user completes the FinicityConnect scenario.
 
 Once this postback is received, the applicant's IV is marked as complete. At this point, the link will be deactivated, and no additional changes can be made to the provided data.
 
@@ -76,3 +81,22 @@ curl -H "api-key: {API KEY HERE}" -i https://finapi.residentiq.com/api/link
 
 If successful, the curl request should return a 200.
 
+Please note, as of 2/22/2022, any testing that uses the FinicityConnect scenario is going to their sandbox environment; any data captured during this time will be lost when we migrate to production.
+
+To test Finicity Connect, a user may use the following information in lieu of live data:
+```
+Bank Name: Finbank
+UserName: Testing
+Password: Profile_02
+```
+
+The password here can be updated to pull back different result sets. The following passwords are valid for testing purposes:
+- Profile_02
+- Profile_03
+- Profile_04
+- Profile_05
+- Profile_06
+
+The Bank Name and UserName fields should remain the same.
+
+Please note that **all banking information is stored in the Finicity system, NOT ResidentIQ.** 
