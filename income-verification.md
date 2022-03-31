@@ -83,19 +83,7 @@ If successful, the curl request should return a 200.
 
 Please note, as of 2/22/2022, any testing that uses the FinicityConnect scenario is going to their sandbox environment; any data captured during this time will be lost when we migrate to production.
 
-To test Finicity Connect, a user may use the following information in lieu of live data:
-```
-Bank Name: Finbank
-UserName: Testing
-Password: Profile_02
-```
-
-The password here can be updated to pull back different result sets. The following passwords are valid for testing purposes:
-- Profile_02
-- Profile_03
-- Profile_04
-- Profile_05
-- Profile_06
+A list of test accounts can be provided from Finicity upon request.
 
 The Bank Name and UserName fields should remain the same.
 
