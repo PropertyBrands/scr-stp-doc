@@ -4,6 +4,33 @@
 
 The ResidentIQ Income Verification product (IV for short) requires an API Key for initial access and all API transactions. This key will be provided by the ResidentIQ team.
 
+## Testing an API Key
+
+An end user can test connectivity with postman or curl. Below is a sample curl request that should return a 200 response with a valid api key:
+REQUEST:
+```
+curl -H "api-key: {API KEY HERE}" -i https://finapi.residentiq.com/api/link
+```
+RESPONSE:
+```
+HTTP/1.1 200 OK
+Server: Microsoft-IIS/10.0
+X-Powered-By: ASP.NET
+Date: Wed, 16 Feb 2022 16:38:20 GMT
+Content-Length: 0
+```
+
+An invalid key will return a 401 Unauthorized response:
+```
+HTTP/1.1 401 Unauthorized
+Content-Length: 16
+Server: Microsoft-IIS/10.0
+X-Powered-By: ASP.NET
+Date: Wed, 16 Feb 2022 16:41:36 GMT
+```
+
+The included postman collection will contain a health check request that can also be used for this purpose.
+
 ## Usage
 
 To request an income verification link for an applicant, the API partner will send a POST request to https://finapi.residentiq.com/api/link. The body of this request will include two parameters in JSON format:
@@ -71,15 +98,7 @@ To ensure the income verification token is valid, the following checks are perfo
 * If the token cannot be parsed into a valid GUID, the API will pass back: Income verification token cannot be parsed.
 * If the verification token has previously been mapped to a screening, the API will respond with: Verification Token has been previously mapped to another report.
 
-## Testing
-
-The following curl request can be used to test connectivity:
-
-```curl
-curl -H "api-key: {API KEY HERE}" -i https://finapi.residentiq.com/api/link
-```
-
-If successful, the curl request should return a 200.
+## Other
 
 Please note, as of 2/22/2022, any testing that uses the FinicityConnect scenario is going to their sandbox environment; any data captured during this time will be lost when we migrate to production.
 
