@@ -89,7 +89,7 @@ When the API partner receives the above postback, that Income Verification can b
 </AdditionalItems>
 ```
 
-Note, income verifications can only be assigned to ONE screening.
+Note, income verifications can only be assigned to ONE screening. Additionally, the package being requested for the screening must include an Income Verification search in order to properly associate.
 
 ## Troubleshooting
 
