@@ -112,3 +112,35 @@ The decision route will allow partners to set a property decision for a specific
 ```
 
 3. **Response-Error**: Returns a standard Error response with description.
+
+### GET : /api/apipartner/aal/{reportNumber : int}
+The apipartner/aal route will pull back the most recently created adverse action letter for the requested report number. If no AAL files exist for the report, see item 1.1. Otherwise, assuming no error, the API will respond with a file name and file bytes, per the payload in 1.
+
+1. **Response Success**: If the API call passes validation and the report has an adverse action letter associated with it, the API will return:
+``` xml
+<?xml version="1.0"?><BackgroundReports userId="{will be empty}" password="{will be empty}">
+  <BackgroundReportPackage>
+   <ReferenceId>{Partner Provided ReferenceId}</ReferenceId>
+    <OrderId>{reportNumber}</OrderId>
+   <SupportingDocumentation>
+      <Document>
+        <Name>{File Name}</Name>
+        <EncodedContent>{Base64 encoded string of file bytes}</EncodedContent>
+      </Document>
+    </SupportingDocumentation>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+1.1 **Response Success, no files**: If no AALs are stored for the requested report number, the API will return:
+``` xml
+<?xml version="1.0"?><BackgroundReports userId="{will be empty}" password="{will be empty}">
+  <BackgroundReportPackage>
+   <ReferenceId>{Partner Provided ReferenceId}</ReferenceId>
+    <OrderId>{reportNumber}</OrderId>
+   <SupportingDocumentation>
+      No documentation exists for this report.
+    </SupportingDocumentation>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+2. **Response Failure**: Returns a standard error response with a standard error message.
