@@ -80,6 +80,19 @@ Please note that all income sources that the user specifies are transmitted sepa
 
 Once this postback is received, the applicant's IV is marked as complete. At this point, the link will be deactivated, and no additional changes can be made to the provided data.
 
+### Errors
+
+During the verification process, if certain progress-blocking errors are encountered, a postback will be sent to the endpoint specified during creation. This postback will contain the following information:
+```json
+{
+  "timestamp": "2022-06-30T19:47:50.054211Z",
+  "verificationToken": "47bf8051-bed0-4e17-98d4-e6998b978308",
+  "errorMessage": "descriptive error message"
+}
+```
+
+The timestamp in this payload will be in UTC, and the error message will provide some context as to the error encountered.
+
 ## Screening
 
 When the API partner receives the above postback, that Income Verification can be associated to a screening in the ResidentIQ system. The following node can be used during the Screening-Create process to associate a new screening record to an existing IV:
