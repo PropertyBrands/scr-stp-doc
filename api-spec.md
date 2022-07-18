@@ -111,9 +111,9 @@ The report status route takes a much simpler xml request body but follows the st
 ***
 
 ### POST : /api/partner/link
-The link route will let API Partners group applicants after they have already been submitted to STP. STP takes a simple xml payload with 2 ids:
+The link route will let API Partners group applicants after they have already been submitted to STP. STP takes a simple xml payload with the a base OrderId and the other RIQ report numbers to include in the group:
 1. Applicant1 Id : The report number of the applicant to group
-2. Applicant2 Id : The report number of the applicant or applicant in a group that applicant 1 should be associated with.
+2. Additional Report Ids : The report numbers of the applicants applicant 1 should be linked with.
 
 ### Examples:
 1. **Request**: If the payload passes validation api partner will receive an immediate response indicating the record has been received and is pending.
@@ -123,6 +123,8 @@ The link route will let API Partners group applicants after they have already be
   <BackgroundSearchPackage action="status">
     <OrderId>{Applicant 1 Report Number}</OrderId>
   <AdditionalItems type="x:link_order"><Text>{Applicant 2 Report Number}</Text></AdditionalItems></BackgroundSearchPackage>
+  <AdditionalItems type="x:link_order"><Text>{Applicant 3 Report Number}</Text></AdditionalItems></BackgroundSearchPackage>
+  <AdditionalItems type="x:link_order"><Text>{Applicant 4 Report Number}</Text></AdditionalItems></BackgroundSearchPackage>
 </BackgroundCheck>
 ```
 2. **Response-Success**: 
@@ -154,6 +156,38 @@ The unlink route will remove applicant with the supplied OrderId from its curren
   <BackgroundSearchPackage action="status">
     <OrderId>{STP Report Number To Decouple}</OrderId>
  </BackgroundSearchPackage>
+</BackgroundCheck>
+```
+2. **Response-Success**: 
+```xml
+<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundReportPackage>
+   <ReferenceId>{Partner Provided ReferenceId}</ReferenceId>
+    <OrderId>{STP internal report number}</OrderId>
+    <ScreeningStatus>
+      <OrderStatus>x:pending</OrderStatus>
+      <OrderDecision>{Report Recommended Decision}</OrderDecision>
+    </ScreeningStatus>
+    <ReportURL>{Url To View Report in Browser}</ReportURL>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+3. **Response-Error**: Returns a standard Error response with description.
+
+### POST : /api/partner/unlink/many
+The unlink route will remove applicants with the supplied Ids from its current group and update the group calculations for all remaining members. RIQ does not support single applicant groups and will automatically clear a group from the system if only one report remains in it.
+
+### Examples:
+1. **Request**: If the payload passes validation api partner will receive an immediate response indicating the record has been received and is pending.
+```xml
+<?xml version="1.0"?>
+<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundSearchPackage action="status">
+    <OrderId>{STP Report Number To Decouple}</OrderId>
+ </BackgroundSearchPackage>
+  <AdditionalItems type="x:link_order"><Text>{Applicant 2 Report Number to unlink}</Text></AdditionalItems></BackgroundSearchPackage>
+  <AdditionalItems type="x:link_order"><Text>{Applicant 3 Report Number to unlink}</Text></AdditionalItems></BackgroundSearchPackage>
+  <AdditionalItems type="x:link_order"><Text>{Applicant 4 Report Number to unlink}</Text></AdditionalItems></BackgroundSearchPackage>
 </BackgroundCheck>
 ```
 2. **Response-Success**: 
