@@ -165,10 +165,8 @@ The unlink route will remove applicant with the supplied OrderId from its curren
    <ReferenceId>{Partner Provided ReferenceId}</ReferenceId>
     <OrderId>{STP internal report number}</OrderId>
     <ScreeningStatus>
-      <OrderStatus>x:pending</OrderStatus>
-      <OrderDecision>{Report Recommended Decision}</OrderDecision>
+      <OrderStatus>x:unlinked</OrderStatus>
     </ScreeningStatus>
-    <ReportURL>{Url To View Report in Browser}</ReportURL>
   </BackgroundReportPackage>
 </BackgroundReports>
 ```
@@ -197,10 +195,8 @@ The unlink route will remove applicants with the supplied Ids from its current g
    <ReferenceId>{Partner Provided ReferenceId}</ReferenceId>
     <OrderId>{STP internal report number}</OrderId>
     <ScreeningStatus>
-      <OrderStatus>x:pending</OrderStatus>
-      <OrderDecision>{Report Recommended Decision}</OrderDecision>
+      <OrderStatus>x:unlinked</OrderStatus>
     </ScreeningStatus>
-    <ReportURL>{Url To View Report in Browser}</ReportURL>
   </BackgroundReportPackage>
 </BackgroundReports>
 ```
