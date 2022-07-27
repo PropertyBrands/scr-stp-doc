@@ -146,34 +146,7 @@ The link route will let API Partners group applicants after they have already be
 ***
 
 ### POST : /api/partner/unlink
-The unlink route will remove applicant with the supplied OrderId from its current group and update the group calculations for all remaining members. 
-
-### Examples:
-1. **Request**: If the payload passes validation api partner will receive an immediate response indicating the record has been received and is pending.
-```xml
-<?xml version="1.0"?>
-<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
-  <BackgroundSearchPackage action="status">
-    <OrderId>{STP Report Number To Decouple}</OrderId>
- </BackgroundSearchPackage>
-</BackgroundCheck>
-```
-2. **Response-Success**: 
-```xml
-<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
-  <BackgroundReportPackage>
-   <ReferenceId>{Partner Provided ReferenceId}</ReferenceId>
-    <OrderId>{STP internal report number}</OrderId>
-    <ScreeningStatus>
-      <OrderStatus>x:unlinked</OrderStatus>
-    </ScreeningStatus>
-  </BackgroundReportPackage>
-</BackgroundReports>
-```
-3. **Response-Error**: Returns a standard Error response with description.
-
-### POST : /api/partner/unlink/many
-The unlink route will remove applicants with the supplied Ids from its current group and update the group calculations for all remaining members. RIQ does not support single applicant groups and will automatically clear a group from the system if only one report remains in it.
+The unlink route will remove applicant(s) with the supplied Ids from its current group and update the group calculations for all remaining members. RIQ does not support single applicant groups and will automatically clear a group from the system if only one report remains in it. Partners can still send a single OrderId to remove one person from a group as well.
 
 ### Examples:
 1. **Request**: If the payload passes validation api partner will receive an immediate response indicating the record has been received and is pending.
@@ -197,6 +170,35 @@ The unlink route will remove applicants with the supplied Ids from its current g
     <ScreeningStatus>
       <OrderStatus>x:unlinked</OrderStatus>
     </ScreeningStatus>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+3. **Response-Error**: Returns a standard Error response with description.
+
+### POST : /api/partner/group-data
+Group Data route will take an OrderId for any report the provided credentials can access and return all OrderId's for memebers of said group. 
+
+### Examples:
+1. **Request**: If the payload passes validation api partner will receive an immediate response indicating the record has been received and is pending.
+```xml
+<?xml version="1.0"?>
+<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundSearchPackage action="status">
+    <OrderId>{STP Report Number}</OrderId>
+ </BackgroundSearchPackage>
+</BackgroundCheck>
+```
+2. **Response-Success**: 
+```xml
+<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundReportPackage>
+   <ReferenceId>{Partner Provided ReferenceId}</ReferenceId>
+    <OrderId>{STP internal report number}</OrderId>
+    <RIQGroupIdentifier>{RIQ internal group tracking token}</RIQGroupIdentifier>
+    <GroupedReports>
+      <ReportId>12345</ReportId>
+      <ReportId>123456</ReportId>
+    </GroupedReports>
   </BackgroundReportPackage>
 </BackgroundReports>
 ```
