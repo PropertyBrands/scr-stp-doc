@@ -14,7 +14,7 @@ The RIQ Income Verification has two environments: sandbox and production. The ur
 |Production|API|https://finapi.residentiq.com/api/|
 |Production|WebApp|https://fin.residentiq.com/|
 
-In the below documentation, the production URLs are used. The sandbox URLs should function in the same manner, unless otherwise noted.
+**In the below documentation, the production URLs are used. The sandbox URLs should function in the same manner, unless otherwise noted.**
 
 ## Testing an API Key
 
