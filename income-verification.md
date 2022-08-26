@@ -4,6 +4,18 @@
 
 The ResidentIQ Income Verification product (IV for short) requires an API Key for initial access and all API transactions. This key will be provided by the ResidentIQ team.
 
+## Environments
+
+The RIQ Income Verification has two environments: sandbox and production. The urls for these environments are:
+|Environment|App|Url|
+|--|--|--|
+|Sandbox|API|https://finapi-qa.residentiq.com/api/|
+|Sandbox|WebApp|https://fin-qa.residentiq.com/|
+|Production|API|https://finapi.residentiq.com/api/|
+|Production|WebApp|https://fin.residentiq.com/|
+
+In the below documentation, the production URLs are used. The sandbox URLs should function in the same manner, unless otherwise noted.
+
 ## Testing an API Key
 
 An end user can test connectivity with postman or curl. Below is a sample curl request that should return a 200 response with a valid api key:
