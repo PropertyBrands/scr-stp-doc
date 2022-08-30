@@ -144,3 +144,66 @@ The apipartner/aal route will pull back the most recently created adverse action
 </BackgroundReports>
 ```
 2. **Response Failure**: Returns a standard error response with a standard error message.
+
+### POST : /api/apipartner/client/create
+The apipartner/client create route allows api partners to map their existing clients into RIQ for running reports against. The client create route is different from the other in it's JSON body vs XML. 
+
+**Sample Request**: If the API call passes validation and the report has an adverse action letter associated with it, the API will return:
+``` json
+{
+    "clientName": "Test Client", 
+    "mainContactName": "Ringo Star",
+    "mainPhone": "213-123-4572",
+    "fax": "(213) 123-4572",
+    "email": "primary.contact@company.com",
+    "rentalUnitCount": 20001,
+    "ownerName": "Owner Name",
+    "ownerCompany": "Parent Company Name",
+    "ownerPhone": null,
+    "ownerEmail": "owner.contact@company.com",
+    "billingContact": "Billing Admin Name",
+    "billingPhone": null,
+    "billingEmail": "billing.contact@company.com", -- RIQ will use the Main contact for invoice distribution if this field is null
+    "associatedSalesRep": "Test Representatice",
+    "addresses": [
+        {
+            "postalCode": "89110", -- Required
+            "region": "NV", -- Required
+            "city": "Las Vegas",
+            "street": "8524 Yuka Ave",
+            "street2": null,
+            "currentAddress": false,
+            "physical": true,
+            "postal": true,
+            "billing": true
+        }
+    ]
+}
+```
+**Response Success**: If the API call passes validation and the new client is created successfully in RIQ, the API will return the created client record with all its corresponding RIQ Id's set for mapping in the partner's system.
+
+**Response Fail**: If the API call fails for some reason the end system can get back a couple different error responses, the API will return the created client record with all its corresponding RIQ Id's set for mapping in the partner's system.
+
+**Validation Errors** : ex. A Required field is not included or set to null in the create request.{
+```json
+{
+    "errors": {
+        "ClientName": [
+            "The ClientName field is required."
+        ]
+    },
+    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+    "title": "One or more validation errors occurred.",
+    "status": 400,
+    "traceId": "|d0185e90-4c9dd1ad58da36ea."
+}
+```
+
+**Processing Errors** : A general Error occured during client creation that requires a developers assistance.
+```json
+{
+    "errors": {
+        "message": "Error Creating Client, please contact support"
+    }
+}
+```
