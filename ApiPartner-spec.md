@@ -146,7 +146,7 @@ The apipartner/aal route will pull back the most recently created adverse action
 2. **Response Failure**: Returns a standard error response with a standard error message.
 
 ### POST : /api/apipartner/client/create
-The apipartner/client create route allows api partners to map their existing clients into RIQ for running reports against. The client create route is different from the other in it's JSON body vs XML. 
+The apipartner/client create route allows api partners to map their existing clients into RIQ for running reports against. The client create route is different from the other in it's JSON body vs XML. All properties on the addressa are required.
 
 **Sample Request**: If the API call passes validation and the report has an adverse action letter associated with it, the API will return:
 ``` json
@@ -167,15 +167,14 @@ The apipartner/client create route allows api partners to map their existing cli
     "associatedSalesRep": "Test Representatice",
     "addresses": [
         {
-            "postalCode": "89110", -- Required
-            "region": "NV", -- Required
+            "postalCode": "89110",
+            "region": "NV",
             "city": "Las Vegas",
             "street": "8524 Yuka Ave",
             "street2": null,
             "currentAddress": false,
-            "physical": true,
-            "postal": true,
-            "billing": true
+            "physical": true, -- Is this the clients Physical Address
+            "billing": true -- Is this the clients billing Address
         }
     ]
 }
