@@ -101,6 +101,7 @@ The report status route takes a much simpler xml request body but follows the st
     <ScreeningStatus>
       <OrderStatus>x:ready</OrderStatus>
       <OrderDecision>{Report Recommended Decision}</OrderDecision>
+      <OrderDecisionDescription>{Conditional Decision Verbiage stored in RIQ for provided property}</OrderDecisionDescription>
     </ScreeningStatus>
     <ReportURL>{Url To View Report in Browser}</ReportURL>
   </BackgroundReportPackage>
