@@ -271,6 +271,7 @@ The decision route will allow partners to set a property decision for a specific
 		<BackgroundSearchPackage action="decision">
 			<OrderId>{STP Internal report Number}</OrderId>
 			<PropertyDecision>{Accept / Conditional-High / Conditional-Low / Decline}</PropertyDecision>
+			<PropertyDecisionDescription>{API Partner passed verbiage to display on letter.}</PropertyDecisionDescription>
 		</BackgroundSearchPackage>
 	</BackgroundCheck>
 ```
@@ -282,6 +283,42 @@ The decision route will allow partners to set a property decision for a specific
     <OrderId>{STP Internal Report Number}</OrderId>
     <Success>{True / False}</Success>
   </BackgroundReportPackage>
+</BackgroundReports>
+```
+
+
+### POST : /api/partner/decision/group
+The decision route will allow partners to set a property decision for a specific group of reports. Allowed property decisions are Decline, Conditional-Low, Conditional-High, and Accept. The property decision and supplied property decision description will be used when STP generates an adverse action letter on behalf of the API partner for all group members identified in the request. Only currently grouped/linked reports can have their property decision set via this route. for an individual report the /decision route should be called.
+
+### Examples
+1. **Request**: Similar to the status route, the API will look for a "decision" action on the BackgroundSearchPackage element, followed by a child PropertyDecision element:
+```xml
+<?xml version="1.0"?>
+	<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
+		<BackgroundSearchPackage action="decision">
+			<OrderId>{STP Internal report Number group member 1}</OrderId>
+			<OrderId>{STP Internal report Number group member 2}</OrderId>
+			<PropertyDecision>{Accept / Conditional-High / Conditional-Low / Decline}</PropertyDecision>
+			<PropertyDecisionDescription>{API Partner passed verbiage to display on letter.}</PropertyDecisionDescription>
+		</BackgroundSearchPackage>
+	</BackgroundCheck>
+```
+2. **Response Success**: If the API call passes validation, the API will return a success element in its response indicating if the update was successful or not:
+```xml
+<?xml version="1.0"?>
+<BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+    <BackgroundReportPackage>
+        <Order>
+            <ReferenceId>{Partner Provided referenceId}</ReferenceId>
+            <OrderId>{STP Internal Report Number}</OrderId>
+            <Success>{True / False}</Success>
+        </Order>
+        <Order>
+            <ReferenceId>{Partner Provided referenceId}</ReferenceId>
+            <OrderId>{STP Internal Report Number}</OrderId>
+            <Success>{True / False}</Success>
+        </Order>
+    </BackgroundReportPackage>
 </BackgroundReports>
 ```
 
