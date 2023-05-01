@@ -5,7 +5,7 @@
         <APIUser></APIUser>
         <ClientUser></ClientUser>
         <UserFullName></UserFullName>
-        <SendConsumerDisclosure>1</SendConsumerDisclosure>
+        <SendConsumerCopy>1</SendConsumerCopy>
         <PersonalData>
             <PersonName>
                 <GivenName>Hank</GivenName>
