@@ -40,7 +40,7 @@
                         <FormattedName>Jerry Garcia</FormattedName>
                     </PersonName>
                     <Telephone>8008675309</Telephone>
-                    <Telephone>super.visor@employer.com</Telephone>
+                    <Email>super.visor@employer.com</Email>
                     <PostalAddress>
                         <PostalCode>57701</PostalCode>
                         <Region>SD</Region>
