@@ -25,7 +25,7 @@ Currently all RIQ API partners must send valid credentials in the xml payload <B
 
 # Note :
 1. Please use ssns that corresponds with test accounts : 333221111,111223333.
-2. Report Urls returned from the API are transient and only live for 5 minutes. this can be overriden for a given location if needed.
+2. Report Urls returned from the API are transient and only live for 5 minutes and can only be loaded twice. this can be overriden for a given location if needed.
 
 ***
 ### POST : /api/partner
