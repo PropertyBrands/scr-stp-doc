@@ -5,7 +5,9 @@
     <title>Auto Close after 10 seconds</title>
     <script>
         window.onload = function() {
+            console.log('PAGE IS LOADED');
             setTimeout(function() {
+                console.warn('PAGE IS CLOSING');
                 window.open('', '_self').close();
             }, 10000); // 10,000 milliseconds = 10 seconds
         };
