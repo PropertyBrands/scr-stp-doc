@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Auto Close Page</title>
+    <title>Auto Close after 10 seconds</title>
     <script>
         window.onload = function() {
-            window.open('', '_self').close();
+            setTimeout(function() {
+                window.open('', '_self').close();
+            }, 10000); // 10,000 milliseconds = 10 seconds
         };
     </script>
 </head>
 <body>
-    Page will automatically close upon loading.
+    This page will automatically close after 10 seconds.
 </body>
 </html>
