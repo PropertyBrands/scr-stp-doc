@@ -46,6 +46,20 @@ The standard post route accepts a standard xml payload in the request body and w
   </AdditionalItems>
 ```
 
+**Alternative scoring models :** This feature allows partners to provide a new scoring model that overrides the default scoring criteria. By default, partners can pass nothing or "default" in the following node to use the standard scoring model that is setup during client onboarding:
+```xml
+    <AdditionalItems type="x:scoring_model">
+	<Text>default</Text>
+    </AdditionalItems>
+```
+Otherwise, the partner can provide the string name of the model they wish to apply to the new screening:
+```xml
+    <AdditionalItems type="x:scoring_model">
+	<Text>Test Affordable</Text>
+    </AdditionalItems>
+```
+Screening will ALWAYS use the default RIQ settings if no alternative scoring model is provided. If partners wish to use this feature, they MUST include the scoring model they wish to use (if any) in the request payload. We do not currently support updating the scoring model after screening submission.
+
 ### Examples:
 1. **Success**: If the payload passes validation api partner will receive an immediate response indicating the record has been received and is pending.
 ```xml
@@ -365,3 +379,36 @@ The Document upload route will allow partners to submit additional documents for
 ```
 
 3. **Response-Error**: Returns a standard Error response with description.
+
+### POST : /api/partner/scoring/models
+This route will return a list of scoring models associated with the client location (based on credentials passed).
+
+1. **Request**: The request uses the provided location credentials to fetch all associated scoring models.
+```xml
+<?xml version="1.0"?>
+<BackgroundReports  userId="{ClientLocationUN}" password="{ClientLocationPW}">
+    <BackgroundSearchPackage />
+</BackgroundReports>
+```
+2. **Response**: The response body will return an AlternativeScoringModels node with an array of Model objects. The payload always include, at a minimum, the "default" scoring model.
+```xml
+<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundReportPackage>
+    <AlternativeScoringModels>
+      <Model>
+        <Name>default</Name>
+        <RecDecAccept>85-100</RecDecAccept>
+        <RecDecConditionalHigh>75-84</RecDecConditionalHigh>
+        <RecDecConditionalLow>45-74</RecDecConditionalLow>
+        <RecDecDeny>0-44</RecDecDeny>
+      </Model>
+      <Model>
+        <Name>Test Affordable</Name>
+        <RecDecAccept>50-100</RecDecAccept>
+        <RecDecConditionalHigh>21-49</RecDecConditionalHigh>
+        <RecDecConditionalLow>6-20</RecDecConditionalLow>
+        <RecDecDeny>0-5</RecDecDeny>
+      </Model>
+    </AlternativeScoringModels>
+  </BackgroundReportPackage>
+```
