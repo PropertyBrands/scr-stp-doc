@@ -390,7 +390,7 @@ This route will return a list of scoring models associated with the client locat
     <BackgroundSearchPackage />
 </BackgroundReports>
 ```
-2. **Response**: The response body will return an AlternativeScoringModels node with an array of Model objects. The payload always include, at a minimum, the "default" scoring model.
+2. **Response**: The response body will return an AlternativeScoringModels node with an array of Model objects. The payload always included, at a minimum, the "default" scoring model.
 ```xml
 <?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
   <BackgroundReportPackage>
