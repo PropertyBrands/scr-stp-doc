@@ -79,6 +79,9 @@
             <AdditionalItems type="x:postback_url">
                 <Text>{someurl}</Text>
             </AdditionalItems>
+            <AdditionalItems type="x:scoring_model">
+                <Text>{"default" | scoring model name}</Text>
+            </AdditionalItems>
         </Screenings>
         <SupportingDocumentation>
             <Document>
