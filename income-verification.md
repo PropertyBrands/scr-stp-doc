@@ -46,8 +46,21 @@ The Partner Token route takes a simple JSON object with auth credentials(usernam
     "firstName" : "{Applicant First Name}",
     "lastName" : "{Applicant Last Name}",
     "email" : "{Applicant Email}",
+    "phoneNumber": "{Valid Applicant Phone Number}",
+    "ssn":"{Applicant SSN}",
     "postback_url" : "{Your Postback URL}",
     "logo_url" : "{url of the png log to use on invitations}",
+    "dob":{
+        "year": 1971,
+        "month" : 4,
+        "day":1
+    },
+    "address": {
+        "line1": "{Applicant Street}",
+        "city": "{Applicant City}",
+        "state": "{Applicant State}",
+        "postalCode": "{Applicant Zip}"
+    },
     "credentials" : {
         "username": "{ClientLocationUN}",
         "password":"{ClientLocationPW}"
