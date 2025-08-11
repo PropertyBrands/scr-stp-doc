@@ -1,134 +1,195 @@
-# ResidentIQ Pre-Screening Income Verification
+## Overview
+The RIQ Argyle Connector lets api partners fetch a link to Argyle and present to applicants. The Argyle integration facilitates payroll system sync and employment verification after successful login to the payroll provider by applicants. Once authenticated, API partners can call the /init route to create an invitation in Argyle. Currently RIQ only supports payroll sync via argyle, OCR for bank statements and pay stubs will be added in future iterations.
 
-## Setup
+### Environment URLs:
+1. sandbox : https://apiqa.residentiq.com
 
-The ResidentIQ Income Verification product (IV for short) requires an API Key for initial access and all API transactions. This key will be provided by the ResidentIQ team.
 
-## Environments
+***
 
-The RIQ Income Verification has two environments: sandbox and production. The urls for these environments are:
-|Environment|App|Url|
-|--|--|--|
-|Sandbox|API|https://finapi-qa.residentiq.com/api/|
-|Sandbox|WebApp|https://fin-qa.residentiq.com/|
-|Production|API|https://finapi.residentiq.com/api/|
-|Production|WebApp|https://fin.residentiq.com/|
+## Authentication
 
-**In the below documentation, the production URLs are used. The sandbox URLs should function in the same manner, unless otherwise noted.**
+### POST : /partner-token
+The Partner Token route takes a simple JSON object with auth credentials(username,password) and returns an auth token that can be used on subsequent requests.
 
-## Testing an API Key
-
-An end user can test connectivity with postman or curl. Below is a sample curl request that should return a 200 response with a valid api key:
-REQUEST:
-```
-curl -H "api-key: {API KEY HERE}" -i https://finapi.residentiq.com/api/link
-```
-RESPONSE:
-```
-HTTP/1.1 200 OK
-Server: Microsoft-IIS/10.0
-X-Powered-By: ASP.NET
-Date: Wed, 16 Feb 2022 16:38:20 GMT
-Content-Length: 0
-```
-
-An invalid key will return a 401 Unauthorized response:
-```
-HTTP/1.1 401 Unauthorized
-Content-Length: 16
-Server: Microsoft-IIS/10.0
-X-Powered-By: ASP.NET
-Date: Wed, 16 Feb 2022 16:41:36 GMT
-```
-
-The included postman collection will contain a health check request that can also be used for this purpose.
-
-## Usage
-
-To request an income verification link for an applicant, the API partner will send a POST request to https://finapi.residentiq.com/api/link. The body of this request will include two parameters in JSON format:
-```json
+### Examples:
+1. **Request**: 
+```JSON
 {
-    "postbackUrl": "{YOUR POSTBACK URL}",
-    "referenceId": "any string of length < 50"
+    "username": "provided by RIQ",
+    "password": "provided by RIQ"    
 }
 ```
 
-The postbackUrl is where results will be delivered when a user is done with the IV process. The ReferenceId is optional and must be less than 50 total characters. This ReferenceId will be provided with the final postback.
-
-If the request is successful, this api call will result in the following response:
-```json
+### Examples:
+1. **Success**: Successful auth results in a 200 HTTP response with a token object in the body.
+```JSON
 {
-    "verificationToken": "47bf8051-bed0-4e17-98d4-e6998b978308",
-    "verificationUrl": "https://fin.residentiq.com/verify/47bf8051-bed0-4e17-98d4-e6998b978308"
+    "token": "JWT Bearer Token"
 }
 ```
 
-The verification URL will take an applicant to the RIQ Income Verification application, where they will be asked a series of questions to determine their monthly income. This application features an integration with Finicity Connect, allowing a user to select their bank(s) and accounts, then have their monthly income automatically calculated. Please note, this information is NOT stored within the RIQ system; all bank information is kept within Finicity's system, and all transactional information is transient, only.
+1. **Failure**: If there are any errors during the authentication process, an error object will be returned in response body.
+```JSON
+{
+    "error": true,
+    "message": "Could not verify username and password"
+}
+```
 
-Once the applicant finishing the IV process, a payload will be posted to the postbackUrl provided during link generation. This postback will include the following information:
+***
+
+### POST : /incomever/init
+**Request**: 
 ```json
 {
-  "verificationToken": "47bf8051-bed0-4e17-98d4-e6998b978308",
-  "calculatedIncome": 0.00,
-  "additionalIncome": 725,
-  "hasHousingVoucher": true,
-  "voucherAmount": 567,
-  "referenceId": "id povided during link generation",
-  "hasBankAccount": false,
-  "totalIncome": 3250.00,
-  "userSpecifiedIncome": 2500,
-  "uploadedDocuments": [
-    {
-      "verificationToken": "47bf8051-bed0-4e17-98d4-e6998b978308",
-      "fileName": "test copy.jpg",
-      "timestamp": "2022-02-11T20:43:56.07",
-      "documentContents": "REMOVED FOR EXAMPLE"
+    "firstName" : "{Applicant First Name}",
+    "lastName" : "{Applicant Last Name}",
+    "email" : "{Applicant Email}",
+    "postback_url" : "{Your Postback URL}",
+    "logo_url" : "{url of the png log to use on invitations}",
+    "credentials" : {
+        "username": "{ClientLocationUN}",
+        "password":"{ClientLocationPW}"
     }
-  ]
 }
 ```
 
-Please note that all income sources that the user specifies are transmitted separately. The TotalIncome field provides a simplified field that adds the CalculatedIncome and/or UserSpecifiedIncome with the AdditionalIncome. Calculated Income will only be populated if the user completes the FinicityConnect scenario.
-
-Once this postback is received, the applicant's IV is marked as complete. At this point, the link will be deactivated, and no additional changes can be made to the provided data.
-
-### Errors
-
-During the verification process, if certain progress-blocking errors are encountered, a postback will be sent to the endpoint specified during creation. This postback will contain the following information:
+**Success Response** : 
 ```json
 {
-  "timestamp": "2022-06-30T19:47:50.054211Z",
-  "verificationToken": "47bf8051-bed0-4e17-98d4-e6998b978308",
-  "errorMessage": "descriptive error message"
+    "success": true,
+    "response": {
+        "externalId": "{Guid : This is how you will identify the record to RIQ moving forward}",
+        "firstName": "{Applicant First Name}",
+        "lastName": "{Applicant Last Name}",
+        "email": "{Applicant Email}",
+        "argyle_Url": "{Argyle URL to present applicant}"
+    }
 }
 ```
 
-The timestamp in this payload will be in UTC, and the error message will provide some context as to the error encountered.
+**Failure Response** : 
+```json
+{
+    "success": false,
+    "response": [
+        "Valid First Name is Required.",
+        "Other Error Messages"
+    ]
+}
+```
+## Postbacks
+RIQ will post back to the supplied URL with high level information regarding the state of your income verification. This postback will include any Events received from our vendor as well as some high level employment data for all connected accounts.
 
-## Screening
+```json
+[
+  {
+    "invite_sent_date": "2024-10-11T19:22:19.853",
+    "first_name": "Test",
+    "last_name": "User",
+    "invite_sent_to": "test.user@email.com",
+    "paystubs_retrieved": 10,
+    "employer_name": "Target",
+    "employment_status": "terminated",
+    "overview": {
+      "connection": {
+        "status": "error",
+        "error_code": "auth_required",
+        "error_message": "This user's connection has expired and requires re-authentication.",
+        "updated_at": "2024-10-12T19:47:06.840688Z"
+      },
+      "availability": {
+        "paystubs": {
+          "status": "synced",
+          "updated_at": "2024-10-11T19:44:12.200578Z",
+          "available_count": 123,
+          "available_from": "2022-04-11T19:42:52Z",
+          "available_to": "2024-08-12T00:00:00Z"
+        },
+        "identities": {
+          "status": "synced",
+          "updated_at": "2024-10-11T19:42:56.179869Z"
+        }
+      }
+    }
+  },
+  {
+    "invite_sent_date": "2024-10-11T19:22:19.853",
+    "first_name": "Test",
+    "last_name": "User",
+    "invite_sent_to": "test.user@email.com",
+    "paystubs_retrieved": 10,
+    "employer_name": "DoorDash",
+    "employment_status": "inactive",
+    "overview": {
+      "connection": {
+        "status": "connected",
+        "error_code": null,
+        "error_message": null,
+        "updated_at": "2024-10-11T19:46:53.731592Z"
+      },
+      "availability": {
+        "paystubs": {
+          "status": "synced",
+          "updated_at": "2024-10-11T19:48:51.369949Z",
+          "available_count": 143,
+          "available_from": "2021-12-13T19:46:53Z",
+          "available_to": "2024-09-02T00:00:00Z"
+        },
+        "identities": {
+          "status": "synced",
+          "updated_at": "2024-10-11T19:48:51.653044Z"
+        }
+      }
+    }
+  }
+]
+```
 
-When the API partner receives the above postback, that Income Verification can be associated to a screening in the ResidentIQ system. The following node can be used during the Screening-Create process to associate a new screening record to an existing IV:
+
+## Report Submission
+When submitting a report to RIQ that has an income verification tied to it, The supplied ExternalId can be sent as an Additional Item
 ```xml
-<AdditionalItems type="x:income_verification_token">
-    <Text>{token | GUID}</Text>
+<AdditionalItems type="x:argyle_token">
+   <Text>{externalId}</Text>
 </AdditionalItems>
 ```
 
-Note, income verifications can only be assigned to ONE screening. Additionally, the package being requested for the screening must include an Income Verification search in order to properly associate.
+# RIQ Income Verification Direct
+API Partners can also let RIQ run the income verification directly to an applicant via email/sms by supplying the income ver flag in their xml request.
 
-## Troubleshooting
+```xml
+<AdditionalItems type="x:income_verification">
+    <Text>true/false</Text>
+</AdditionalItems>
+```
 
-To ensure the income verification token is valid, the following checks are performed during screening creation:
-* If the screening SearchPackage contains an income verification search, does the screening payload include a token? If not, the API will pass back an error message of Income Verification Token is required for this package.
-* If the token cannot be parsed into a valid GUID, the API will pass back: Income verification token cannot be parsed.
-* If the verification token has previously been mapped to a screening, the API will respond with: Verification Token has been previously mapped to another report.
+# RIQ Income Embed
+API Accounts can also send a request to create a user and embed the argyle experience in their application via iframe
 
-## Other
+### POST : /incomever/init/user
+**Request**: 
+```json
+{
+    "firstName" : "{Applicant First Name}",
+    "lastName" : "{Applicant Last Name}",
+    "email" : "{Applicant Email}",
+    "phoneNumber" : "{Applicant Phone}",
+    "credentials" : {
+        "username": "{ClientLocationUN}",
+        "password":"{ClientLocationPW}"
+    }
+}
+```
 
-Please note, as of 2/22/2022, any testing that uses the FinicityConnect scenario is going to their sandbox environment; any data captured during this time will be lost when we migrate to production.
-
-A list of test accounts can be provided from Finicity upon request.
-
-The Bank Name and UserName fields should remain the same.
-
-Please note that **all banking information is stored in the Finicity system, NOT ResidentIQ.** 
+**Success Response** : 
+```json
+{
+    "success": true,
+    "response": {
+        "externalId": "{Guid : This is how you will identify the record to RIQ moving forward}",
+        "userId": "{Guid : Token to use in your iframe}"
+    }
+}
+```
