@@ -151,7 +151,7 @@ RIQ will post back to the supplied URL with high level information regarding the
 ## Report Submission
 When submitting a report to RIQ that has an income verification tied to it, The supplied ExternalId can be sent as an Additional Item
 ```xml
-<AdditionalItems type="x:argyle_token">
+<AdditionalItems type="x:income_verification_token">
    <Text>{externalId}</Text>
 </AdditionalItems>
 ```
