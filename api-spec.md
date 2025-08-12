@@ -301,6 +301,35 @@ The decision route will allow partners to set a property decision for a specific
 
 3. **Response-Error**: Returns a standard Error response with description.
 
+### POST : /api/partner/decision/group
+The decision route will allow partners to set a property decision for a group of screenings. Allowed property decisions are Decline, Conditional-Low, Conditional-High, and Accept. The property decision will be used when STP generates an adverse action letter on behalf of the API partner.
+
+### Examples
+1. **Request**: Similar to the status route, the API will look for a "decision" action on the BackgroundSearchPackage element, followed by a child PropertyDecision element:
+```xml
+<?xml version="1.0"?>
+	<BackgroundCheck userId="{ClientLocationUN}" password="{ClientLocationPW}">
+		<BackgroundSearchPackage action="decision">
+			<OrderId>{STP Internal report Number}</OrderId>
+			<OrderId>{STP Internal report Number 2}</OrderId>
+			<OrderId>{STP Internal report Number 3}</OrderId>
+			<PropertyDecision>{Accept / Conditional-High / Conditional-Low / Decline}</PropertyDecision>
+		</BackgroundSearchPackage>
+	</BackgroundCheck>
+```
+2. **Response Success**: If the API call passes validation, the API will return a success element in its response indicating if the update was successful or not:
+```xml
+<?xml version="1.0"?><BackgroundReports userId="{ClientLocationUN}" password="{ClientLocationPW}">
+  <BackgroundReportPackage>
+    <ReferenceId>{Partner Provided referenceId}</ReferenceId>
+    <OrderId>{STP Internal Report Number}</OrderId>
+    <Success>{True / False}</Success>
+  </BackgroundReportPackage>
+</BackgroundReports>
+```
+
+3. **Response-Error**: Returns a standard Error response with description.
+
 ### POST : /api/partner/statistics
 The statistics route will pull all applicants under a client and provide statistics on each. The statistics provided include Eviction and Bankruptcy data coupled with the applicants credit score. If a credit score is not on file in RIQ the RIQ calculated score is returned in the Credit Score element. There is a maximum 60 day window for collecting stats. if the requested timeline exceeds this a standard error is thrown with message indicating the issue.
 
