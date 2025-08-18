@@ -49,6 +49,7 @@ The Partner Token route takes a simple JSON object with auth credentials(usernam
     "phoneNumber": "{Valid Applicant Phone Number}",
     "ssn":"{Applicant SSN}",
     "postback_url" : "{Your Postback URL}",
+    "includeOpenBanking: "{true/false} - this will determine if you want to show an option for including open banking to the applicant or just payroll sync",
     "logo_url" : "{url of the png log to use on invitations}",
     "dob":{
         "year": 1971,
