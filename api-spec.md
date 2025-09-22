@@ -60,7 +60,6 @@ Otherwise, the partner can provide the string name of the model they wish to app
 ```
 
 ### To include an income verification with your report. You can turn on income verification for a property accout with your RIQ/WRT representative, then send the following on a per report basis 
-Otherwise, the partner can provide the string name of the model they wish to apply to the new screening:
 ```xml
    <AdditionalItems type="x:income_verification">
 		<Text>true</Text>
