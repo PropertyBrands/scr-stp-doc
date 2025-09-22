@@ -58,6 +58,14 @@ Otherwise, the partner can provide the string name of the model they wish to app
 	<Text>Test Affordable</Text>
     </AdditionalItems>
 ```
+
+### To include an income verification with your report. You can turn on income verification for a property accout with your RIQ/WRT representative, then send the following on a per report basis 
+Otherwise, the partner can provide the string name of the model they wish to apply to the new screening:
+```xml
+   <AdditionalItems type="x:income_verification">
+		<Text>true</Text>
+	</AdditionalItems>
+```
 Screening will ALWAYS use the default RIQ settings if no alternative scoring model is provided. If partners wish to use this feature, they MUST include the scoring model they wish to use (if any) in the request payload. We do not currently support updating the scoring model after screening submission.
 
 ### Examples:
