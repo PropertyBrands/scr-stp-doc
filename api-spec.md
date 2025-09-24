@@ -217,10 +217,18 @@ Group Data route will take an OrderId for any report the provided credentials ca
    <ReferenceId>{Partner Provided ReferenceId}</ReferenceId>
     <OrderId>{STP internal report number}</OrderId>
     <RIQGroupIdentifier>{RIQ internal group tracking token}</RIQGroupIdentifier>
-    <GroupedReports>
-      <ReportId>12345</ReportId>
-      <ReportId>123456</ReportId>
-    </GroupedReports>
+     <GroupedReports>
+            <GroupRecord>
+                <ReportId>12345</ReportId>
+                <FullName>Applicant One</FullName>
+                <PropertyDecision />
+            </GroupRecord>
+            <GroupRecord>
+                <ReportId>12356</ReportId>
+                <FullName>Applicant Two</FullName>
+                <PropertyDecision />
+            </GroupRecord>
+        </GroupedReports>
   </BackgroundReportPackage>
 </BackgroundReports>
 ```
